@@ -1,0 +1,38 @@
+
+
+# Hard (laykold)
+## US Open 2024 (Andrey Rublev vs. Grigor Dimitrov Extended Highlights)
+name: hard_laykold-video_1
+url: https://www.youtube.com/watch?v=QwLKWwjHHig
+
+## US Open 2024 (Jannik Sinner vs. Taylor Fritz Extended Highlights)
+name: hard_laykold-video_2
+url: https://www.youtube.com/watch?v=lytcJs4KWSk
+
+# Red clay
+## Roland-Garros 2020 (Rafael Nadal vs Novak Djokovic)
+name: red_clay-video_1
+url: https://www.youtube.com/watch?v=gkIsvlZDG-Y
+
+## Roland-Garros 2019 (Roger Federer vs Casper Ruud)
+name: red_clay-video_2
+url: https://www.youtube.com/watch?v=GXuJ_IK_WU8
+
+# Grass
+## Wimbledon 2024 (Carlos Alcaraz vs Novak Djokovic)
+name: grass-video_1
+url: https://www.youtube.com/watch?v=64WsO9LKE-A
+
+## Wimbledon 2019 (Novak Djokovic vs Roger Federer) - grass
+name: grass-video_2
+url: https://www.youtube.com/watch?v=mnLdAeSXZv0
+
+# Hard (plexicushion)
+## Australian Open 2025 (Aryna Sabalenka vs Madison Keys Extended Highlights)
+name: hard_plexicushion-video_1
+url: https://www.youtube.com/watch?v=ChUTsgpgxts
+
+## Australian Open 2025 (Jannik Sinner vs Alexander Zverev Extended Highlights) - Hard (Plexicushion)
+name: hard_plexicushion-video_2
+url: https://www.youtube.com/watch?v=F5B1QpU0Evo
+

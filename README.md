@@ -1,29 +1,48 @@
 # Tennis Autodistillation
 
-Tennis Autodistillation is a project aimed at applying autodistillation techniques to tennis analytics. This project provides tools and methods to enhance the analysis and understanding of tennis data.
+Tennis Autodistillation is a project aimed at applying autodistillation techniques to tennis video analysis.
 
-## Features
+This project creates foundation models to generate datasets to train the following models:
+- Frame classification
+- Tennis player detector
+- Court keypoints detector
 
-- **Data Processing**: Efficiently process and clean tennis datasets.
-- **Model Training**: Train models using autodistillation techniques.
-- **Visualization**: Visualize results and insights from the data.
-
+Watch our (demo video)[https://drive.google.com/file/d/1jyFV8Z-Xo9iQFWdJeeerkqdbP0DuoRWq/view?usp=sharing]
 ## Installation
+
+Create an environment, so that you ...
+```bash
+conda create -n tennis-autodistill python=3.13
+conda activate tennis-autodistill
+```
 
 To install the project, clone the repository and install the dependencies:
 ```bash
 git clone https://github.com/yourusername/tennis-autodistill.git
 cd tennis-autodistillation
 pip install -r requirements.txt
+pip install -e .
 ```
 
 ## Usage
 
-To use the project, run the main script with the necessary arguments:
+To use the project, follow the notebook `tennis_autodistill.ipynb`.
 
-```bash
-python main.py --data path/to/your/data
-```
+I highly recommend to watch the instruction videos first. They will help you understand the project and the decisions behind the code.
+- (The pipeline and overview of the project)[https://drive.google.com/file/d/1EftccAKo-N-nUBJ5qratIvBshGeHQcJX/view?usp=sharing]
+- (Dataset creation)[https://drive.google.com/file/d/176dd0X9VBY4WWYObcxooYH8lj-336EoV/view?usp=sharing]
+- (Estimating court points)[https://drive.google.com/file/d/1apjGZCoc_KYSnWwLeMuUVPVg7nsdCmp-/view?usp=sharing]
+
+
+
+
+https://drive.google.com/file/d/1apjGZCoc_KYSnWwLeMuUVPVg7nsdCmp-/view?usp=sharing
+
+output-short-rally.mp4
+https://drive.google.com/file/d/1jyFV8Z-Xo9iQFWdJeeerkqdbP0DuoRWq/view?usp=sharing
+
+
+
 
 ## Court minimap
 International Tennis Federation (ITF) rules of tennis:

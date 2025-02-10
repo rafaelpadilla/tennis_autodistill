@@ -9,7 +9,7 @@ setup(
     author_email='eng.rafaelpadilla@gmail.com',
     description='A project for autodistillation in tennis analytics',
     long_description=open('README.md').read(),
-    url='https://github.com/rafaelpadilla/tennis-autodistill',
+    url='https://github.com/rafaelpadilla/tennis_autodistill',
     packages=find_packages(where='src'),
     package_dir={'': 'src'},
     classifiers=[

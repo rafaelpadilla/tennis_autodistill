@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 __version__ = '0.1.0'
 
 setup(
-    name='tennis_autodistillation',
+    name='tennis_autodistill',
     version=__version__,
     author='Rafael Padilla',
     author_email='eng.rafaelpadilla@gmail.com',

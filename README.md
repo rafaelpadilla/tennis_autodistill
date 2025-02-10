@@ -43,10 +43,10 @@ pip install -e .
 To use the project, open and follow the steps in this Jupyter notebook: `tennis_autodistill.ipynb`.
 
  **⚠️ Attention:** I highly recommend to watch the instruction videos first. They will help you understand the project and the decisions behind the code.
-- [The pipeline and overview of the project](https://drive.google.com/file/d/1EftccAKo-N-nUBJ5qratIvBshGeHQcJX/view?usp=sharing)
-- [Dataset creation](https://drive.google.com/file/d/1PmVXhOrNdSUDY6gIXLKy9VuXPkRdfkcB/view?usp=sharing)
-- [Estimating court points](https://drive.google.com/file/d/1apjGZCoc_KYSnWwLeMuUVPVg7nsdCmp-/view?usp=sharing)
-- [Go-through notebook](https://drive.google.com/file/d/1GEj_j3hZORNFufngyf5F85w6xMkK6tH-/view?usp=sharing)
+- 🎥 [The pipeline and overview of the project](https://drive.google.com/file/d/1EftccAKo-N-nUBJ5qratIvBshGeHQcJX/view?usp=sharing)
+- 🎥 [Dataset creation](https://drive.google.com/file/d/1PmVXhOrNdSUDY6gIXLKy9VuXPkRdfkcB/view?usp=sharing)
+- 🎥 [Estimating court points](https://drive.google.com/file/d/1apjGZCoc_KYSnWwLeMuUVPVg7nsdCmp-/view?usp=sharing)
+- 🎥 [Go-through notebook](https://drive.google.com/file/d/1GEj_j3hZORNFufngyf5F85w6xMkK6tH-/view?usp=sharing)
 
 --------------
 

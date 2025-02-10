@@ -2,14 +2,14 @@
 
 Welcome to **Tennis Autodistillation project**! 👋
 
-This project focuses on creating foundation models to generate datasets used to train specialized models for:
-🏷️ **Frame Classification**
-🕺 **Tennis Player Detection**
-📍 **Court Keypoints Detection**
+This project focuses on creating foundation models to generate datasets used to train specialized models for:  
+🏷️ **Frame Classification**  
+🕺 **Tennis Player Detection**  
+📍 **Court Keypoints Detection**  
 
 Autodistillation is essential for this project, as it enables the use of foundational models (such as **ChatGPT Vision** and **Grounded SAM**) to label our dataset, providing the groundwork needed to train our specialized models.
 
-🎥 Watch the demo video: [Tennis Autodistillation Demo](https://drive.google.com/file/d/1jyFV8Z-Xo9iQFWdJeeerkqdbP0DuoRWq/view?usp=sharing)
+🎥 Watch the demo video: [Tennis Autodistillation Demo](https://drive.google.com/file/d/1jyFV8Z-Xo9iQFWdJeeerkqdbP0DuoRWq/view?usp=sharing)  
 📄 Project presentation: [Download PDF](https://github.com/rafaelpadilla/tennis_autodistill/raw/main/tennis_autodistillation_slides.pdf)
 
 --------------
@@ -38,7 +38,6 @@ pip install -e .
 ```
 --------------
 
-
 ### 🛠️ Usage
 
 To use the project, open and follow the steps in this Jupyter notebook: `tennis_autodistill.ipynb`.
@@ -48,6 +47,7 @@ To use the project, open and follow the steps in this Jupyter notebook: `tennis_
 - [Dataset creation](https://drive.google.com/file/d/1PmVXhOrNdSUDY6gIXLKy9VuXPkRdfkcB/view?usp=sharing)
 - [Estimating court points](https://drive.google.com/file/d/1apjGZCoc_KYSnWwLeMuUVPVg7nsdCmp-/view?usp=sharing)
 - [Go-through notebook](https://drive.google.com/file/d/1GEj_j3hZORNFufngyf5F85w6xMkK6tH-/view?usp=sharing)
+
 --------------
 
 ### 📍 Court Minimap Reference
@@ -61,19 +61,6 @@ The [minimap](https://github.com/rafaelpadilla/tennis_autodistill/blob/main/tenn
 ### 🤝 Contribute
 We welcome and appreciate contributions to the project! Feel free to submit pull requests (PRs) or open issues with suggestions or improvements. Your support helps us make the project even better!
 
---------------
-
-### 📚 Citation
-If you use this project in your research or publication, please consider citing it:
-```text
-@misc{tennis-autodistillation,
-  title = {Tennis Autodistillation: Dataset Generation and Model Training},
-  author = {Padilla, Rafael},
-  year = {2025},
-  howpublished = {\url{https://github.com/rafaelpadilla/tennis_autodistill}},
-  note = {GitHub repository}
-}
-```
 
 
 

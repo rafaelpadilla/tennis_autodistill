@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Tennis Autodistillation: Dataset Generation and Model Training">
+  <meta name="keywords" content="Model Distillation, Automatic Dataset Creation, Court Homography, Player Detection, Tennis">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>🎾  Tennis Autodistillation</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  <script src="./static/js/script.js"></script>
+
+</head>
+
+<body>
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">🎾 Tennis Autodistillation: Dataset Generation and Model Training</h1>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="https://www.github.com/rafaelpadilla">Rafael Padilla</a></span>
+         </div>
+
+
+          <!--affiliations-->
+          <!--
+          <div class="subtitle is-size-6">
+            Federal University of Rio de Janeiro (PEE/COPPE)
+          </div>
+          -->
+
+          <!-- TODO: update paper and video link once upload -->
+          <div class="column has-text-centered">
+            <!-- <div class="publication-links"> -->
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/rafaelpadilla/tennis_autodistill"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                </a>
+              </span>
+             <span class="link-block">
+              <a href="./tennis_autodistillation_slides.pdf"
+                 class="external-link button is-normal is-rounded is-dark">
+                <span class="icon">
+                    <i class="fas fa-file-pdf"></i>
+                </span>
+                <span>Slides (2.9M)</span>
+              </a>
+              </span>
+           </div>
+        </div>
+
+      </div>
+    </div>
+    </div>
+    </div>
+    </div>
+  </section>
+
+
+  <!-- video demo -->
+  <section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div class="video-container" style="max-width: 800px; margin: auto;">
+        <video autoplay controls muted loop playsinline height="35%">
+          <source src="./videos/tennis_demo.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <figcaption style="font-style: italic; text-align: center;">Automated player detection and positioning using autodistilled models. The system detects players, court landmarks, and projects (x, y) positions onto a minimap. The annotations were generated through a fully automated process without human intervention, demonstrating the power of foundation models for dataset creation.</figcaption>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+  <section class="section">
+    <div class="container is-max-desktop">
+
+      <!-- Abstract. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Overview</h2>
+          <div class="content has-text-justified">
+          <p>
+	    Traditional sports analytics and computer vision models rely on manually annotated datasets, which are expensive and time-consuming to create. Tennis Autodistillation introduces an automated approach to dataset generation by leveraging foundation models—large, general-purpose AI models capable of zero-shot learning and understanding. This project employs <strong>ChatGPT Vision (GPT-4V)</strong> and <a href="https://arxiv.org/abs/2401.14159"><strong>Grounded SAM</strong></a> to automatically classify frames, detect players, and identify court landmarks from raw tennis match footage. These auto-labeled datasets are then used to train lightweight, task-specific models that can efficiently perform player detection and court keypoint estimation in real-time. By using foundation models for initial labeling, we eliminate the need for manual annotation, enabling rapid dataset creation for model training. The <a href="https://github.com/autodistill/autodistill"><strong>Roboflow Autodistill</strong></a> library automates the process of transferring knowledge from powerful but resource-intensive models to smaller, more efficient models, making real-time tennis analysis feasible even on consumer hardware. The final trained models can take a raw video of a tennis match and generate an overhead minimap that tracks player positions, opening doors for automated sports analytics, tactical insights, and AI-powered coaching tools. This method not only applies to tennis but can be extended to other sports, surveillance, and autonomous systems where structured datasets are essential.
+	      </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  </section>
+
+
+  <!-- Dataset Generation -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Dataset Generation with Foundation Models</h2>
+          <div class="content has-text-justified">
+            <p>
+              A core innovation of this project is <strong>automatic dataset generation</strong> using foundation models. Instead of labeling images by hand, we employ GPT-4V and Grounded SAM to <strong>classify and annotate frames, creating training sets for each sub-task</strong>. Below we describe the process of the dataset generation:
+            </p>
+          </div>
+
+          <!--Frames Extraction-->
+          <div class="content has-text-justified">
+          <h3 class="title is-4">Frames Extraction</h3>
+            <p>
+                We captured YouTube videos of tennis matches played on four different court surfaces —
+                Hard Laykold (<a href="https://www.youtube.com/watch?v=QwLKWwjHHig" target="_blank">video 1</a>,
+                <a href="https://www.youtube.com/watch?v=lytcJs4KWSk" target="_blank">video 2</a>),
+                Red Clay (<a href="https://www.youtube.com/watch?v=gkIsvlZDG-Y" target="_blank">video 1</a>,
+                <a href="https://www.youtube.com/watch?v=GXuJ_IK_WU8" target="_blank">video 2</a>),
+                Grass (<a href="https://www.youtube.com/watch?v=64WsO9LKE-A" target="_blank">video 1</a>,
+                <a href="https://www.youtube.com/watch?v=mnLdAeSXZv0" target="_blank">video 2</a>), and
+                Hard Plexicushion (<a href="https://www.youtube.com/watch?v=ChUTsgpgxts" target="_blank">video 1</a>,
+                <a href="https://www.youtube.com/watch?v=F5B1QpU0Evo" target="_blank">video 2</a>) —
+                to ensure a diverse dataset, allowing our models to learn better from various playing conditions.
+                From these videos, we randomly extracted frames, resulting in a total of 4712 frames.
+            </p>
+          <div style="max-width: 600px; margin: auto;">
+            <img src="./images/samples_frames.png">
+          </div>
+          <figcaption style="font-style: italic; text-align: center;">
+            A collection of extracted frames from different tennis court surfaces — Hard Laykold, Red Clay, Grass, and Hard Plexicushion — with various perspectives, player actions, and match conditions.
+          </figcaption>
+          <br>
+          <p>
+            The extracted frames vary widely, including full-court gameplay, partial views, and close-ups. To ensure a complete view of the court and players, we need to filter out unwanted frames, keeping only those classified as <strong>gameplay</strong> under all court types to ensure a comprehensive dataset for model training.
+          </p>
+
+          <!--Frame Classification Dataset-->
+          <h3 class="title is-4">Frame Classification Dataset</h3>
+          <div class="content has-text-justified">
+            <p>
+              We used <strong>ChatGPT Vision (GPT-4V)</strong> to label frames into the four categories (<em>gameplay</em>, <em>partial view</em>, <em>close-up</em>, <em>ignore</em>). Each frame was processed by GPT-4V using a prompt that defined class categories, and the model assigned the appropriate label accordingly. By leveraging a large vision-language model to classify frames as full-court, partial-court, and other categories, we efficiently labeled thousands of frames in a fraction of the time required for manual annotation. The resulting labeled frames were used to train a lightweight frame classifier that can quickly classify new frames on the fly, as it will be shown in the pipeline section. From the 4712 frames initially extracted, 3075 frames were classified as <em>gameplay</em>, which we used to generate the player detection and court landmark detection datasets.
+            </p>
+          <div style="max-width: 900px; margin: auto;">
+            <img src="./images/prompts_chatGPT.jpg">
+          </div>
+          <figcaption style="font-style: italic; text-align: center;">
+            Different moments of the match classified by GPT-4V and the prompts we provided to instruct the model in assigning the correct category: <em>gameplay</em> (full court view), <em>partial view</em> (incomplete court)</em>, <em>player-focused</em>, and <em>ignore</em> (commercials or not relevant frames).
+          </figcaption>
+        </div>
+        <!--Player Detection Dataset-->
+        <h3 class="title is-4">Player Detection Dataset</h3>
+        <div class="content has-text-justified">
+          <p>
+            Training a tennis player detector required bounding-box annotations of players. We obtained these by running <a href="https://arxiv.org/abs/2401.14159">Grounded SAM</a> on gameplay frames with the text prompt <strong>tennis player</strong>. Grounded SAM's zero-shot detector (GroundingDINO) finds players and SAM segments them, yielding precise masks. Each segmentation mask was enclosed within a bounding box. This gave us automatic player annotations for each frame, <strong>without any manual drawing</strong> 🚀.
+            We compiled these into a dataset of images with player bounding boxes, and trained a YOLO-based player detection model on it. The foundation model (Grounded SAM) knows how to spot tennis players in an image (thanks to its training on broad data), and we will distill that ability into our custom player detector by using the foundation model's outputs as training labels, as we will see later on. The trained detector can then run in real time, even though the original foundation model would be too slow or resource-heavy for live use.
+          </p>
+          <div style="max-width: 600px; margin: auto;">
+            <img src="./images/groundedSAM.jpg">
+          </div>
+          <figcaption style="font-style: italic; text-align: center;">
+            Grounded SAM's player detection in action. The model segments the players and provides bounding boxes, which will be used to train our player detector.
+          </figcaption>
+      </div>
+      <!--Court Landmarks Dataset-->
+      <h3 class="title is-4">Court Landmarks Dataset</h3>
+      <div class="content has-text-justified">
+        <p> Detecting court line intersections and corners is treated as a keypoint localization problem. The dataset was constructed using a <strong>multi-step automated process</strong>. First, <a href="https://arxiv.org/abs/2401.14159">Grounded SAM</a> was prompted with <strong>playable area of a tennis court</strong> to obtain the desired court region in each frame. Using the segmentation mask, we leveraged the fact that the detected playable area consistently forms a trapezoidal shape to identify its four outermost corner points. Given these four corners, we leveraged the known template (mini map) of a tennis court with 14 standard keypoints, manually defined in <a href="https://github.com/rafaelpadilla/tennis_autodistill/blob/main/src/tennis_autodistill/utils/coords_court_map.py#L3">coords_court_map.py</a>. Using the four outer corners as correspondences, we computed a homography matrix and projected the 14 standard court points onto the image plane.This gave us the pixel coordinates of all 14 court landmarks for that frame. By doing this for many frames (from different matches and court types), we created a diverse set of 3075 images with labeled court keypoints. We defined some rules to remove masks that were not correctly segmented by SAM, such as when the court has holes (empty blobs) or when the segmentation was inaccurate. This filtering process was fully automated and resulted in a clean dataset of 600 images with court landmark annotations. These served to train a court landmarks detection model (a small keypoint detection network) that can predict all 14 points given a single frame.</p>
+        <div style="max-width: 800px; margin: auto;">
+          <img src="./images/schema_14_points_extraction.jpg">
+        </div>
+        <figcaption style="font-style: italic; text-align: center;">
+          The automated process for court landmark detection begins with Grounded SAM segmenting the playable area (purple), followed by estimating the 4 outer court corners and computing a homography transformation using a mini map. We leverage this transformation to obtain the position of the 14 court keypoints in the image.
+        </figcaption>
+
+    </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+
+  <!--Inference Pipeline-->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Inference Pipeline</h2>
+          <div class="content has-text-justified">
+            <p>
+              The pipeline shown below depicts the inference pipeline, where a video is split into frames, and each frame is processed sequentially by models previously trained. First, a frame classificationa model categorizes the frame type, ensuring only relevant gameplay frames stay in the pipeline. Then, a player detection model identifies players on the court, followed by a court landmark detection model that estimates key points on the court. Finally, a homography transformation projects the detected player positions onto a minimap representation of the court.
+              <br>
+
+              <div style="max-width: 700px; margin: auto;">
+                <img src="./images/pipeline.jpg">
+              <figcaption style="font-style: italic; text-align: center;">
+                Pipeline designed for inference using the trained models.
+              </figcaption>
+              </div>
+
+              <ul>
+              <li>
+                <strong>Frame Extraction & Classification:</strong> The video is broken into frames, and each frame is classified into categories: <em>gameplay</em> (full court view), <em>partial view</em> (only part of court visible), <em>close-up</em> (player close-ups), or <em> ignore</em> (irrelevant frames like comercials or crowd). This ensures we focus on frames where the whole court is visible. We used <a href="https://docs.ultralytics.com/tasks/classify/"><strong>YOLOv11 nano cls</strong> model by Ultralytics</a> to classify frames trained with our auto generated dataset. The weights and details of the training proces can be found <a href="https://github.com/rafaelpadilla/tennis_autodistill/tree/main/runs/classify/train">here</a>.
+              </li>
+              <li>
+                <strong>Player Detection (Bounding Boxes):</strong> For each <em>gameplay</em> frame, we detect tennis players on the court. We used <a href="https://docs.ultralytics.com/tasks/detect/"><strong>YOLOv11 nano</strong> model by Ultralytics</a> to detect the players in the frames. This model was trained with our auto generated dataset. The weights and details of the training proces can be found <a href="https://github.com/rafaelpadilla/tennis_autodistill/tree/main/runs/detect/train">here</a>.
+              </li>
+              <li>
+                <strong>Court Landmark Detection (Keypoints):</strong> We identify 14 key court landmarks representing the court corner points and line intersections in each gameplay frame. We trained <a href="https://docs.ultralytics.com/tasks/pose/"><strong> YOLOv11 nano pose</strong> model by Ultralytics</a> with our auto generated dataset. The weights and details of the training proces can be found <a href="https://github.com/rafaelpadilla/tennis_autodistill/tree/main/runs/pose/train">here</a>.
+              </li>
+              <li>
+                <strong>Homography & Minimap Generation:</strong> Given the known geometry of a tennis court, as defined in <a href="https://github.com/rafaelpadilla/tennis_autodistill/blob/main/src/tennis_autodistill/utils/coords_court_map.py#L3">coords_court_map.py</a>, and the court points detected by our model, we compute the 3x3 homography matrix (H). We then determine each player's position (x, y) in the frame using the bottom center of their bounding box. Finally, we apply the homography matrix (H) to transform the players' (x, y) positions from the frame to the minimap. This minimap is essentially a bird's-eye view tracking the players as the rally unfolds.
+              </li>
+              </ul>
+            </p>
+
+            <p>
+            Next you can see a demo video 🎥 output by our pipeline using a random video.
+            </p>
+            <video poster="" autoplay controls muted loop playsinline height="100%">
+              <source src="./videos/output_short_rally.mp4" type="video/mp4">
+            </video>
+
+            <br>
+            <br>
+            <p>
+              You can produce your own videos using the pretrained models available in the <a href="https://github.com/rafaelpadilla/tennis_autodistill/tree/main/runs">runs/</a> using the script <em>scripts/run_pipeline.py</em>:
+            </p>
+              <pre>
+                <code> python scripts/run_pipeline.py \
+                      --input_video <PATH_TO_YOUR_SAMPLE_VIDEO> \
+                      --path_classification_model runs/classify/train/weights/best.pt \
+                      --path_player_detector runs/detect/train/weights/best.pt \
+                      --path_keypoints_detector runs/pose/train/weights/best.pt
+                      --output_folder <PATH_TO_YOUR_OUTPUT_FOLDER>
+                    </code>
+              </pre>
+
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+
+  <!-- Future Work -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Future Work</h2>
+          <div class="content has-text-justified">
+            <p>
+              While the results are promising, there are several areas for improvement, especially in the <strong>landmark annotation process</strong> aspect:
+              <div class="content has-text-justified">
+                <ul>
+                    <li>
+                        <strong>Image-Based Refinements:</strong> Incorporate classic computer vision techniques to improve the 14 projected landmark points.  For instance, applying corner detection algorithms (like the <a href="https://en.wikipedia.org/wiki/Harris_corner_detector" target="_blank">Harris corner detector</a>) or use <strong>corner descriptors</strong> to the court lines could help pinpoint line intersections more precisely. This can <strong>boost reliability</strong> under different lighting conditions and court types (specially for grass and clay ) amd improve the overall accuracy of the annotated court points.
+                    </li>
+
+                    <li>
+                        <strong>Geometric Enforcement & Tracking:</strong> Impose strong geometric constraints based on the known structure of a tennis court and temporal consistency. For example, parallel court lines in the real world should <strong>converge to the same vanishing point in the image</strong>; enforcing this can correct minor prediction errors by the model. We also plan to use tracking algorithms (such as <a href="https://en.wikipedia.org/wiki/Kalman_filter" target="_blank">Kalman filters</a> or optical flow trackers) to stabilize the landmarks locations not only during inference, but also for the annotation process of consecutive frames. By using temporal information of points across consecutive frames, we can <strong>smooth out noise</strong> and ignore transient false detections.
+
+                        <div style="max-width: 500px; margin: auto;">
+                          <img src="./images/vanishing_point.jpg">
+                        </div>
+                        <figcaption style="font-style: italic; text-align: center;">
+                          Due to inaccuracies in the estimated point locations, the vanishing point may not be computed precisely in some cases. Using geometric constraints, we can correct the quality of the points in our dataset by enforcing that parallel lines in the real world converge to the exactly same vanishing point coordinate in the image.
+                        </figcaption>
+                    </li>
+
+
+
+                </ul>
+            </div>
+
+            </p>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Potential Applications -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Potential Applications</h2>
+          <div class="content has-text-justified">
+            <p>
+              <p>
+                This methodology of <strong>automatic dataset generation</strong> and <strong>model training</strong> has broad implications in sports analytics and beyond. Some potential applications include:
+            </p>
+            <ul>
+                <li>
+                  <strong>Extending Object Detection to Ball and Racket Tracking:</strong> Our approach can be extended to detect and track the ball and racket, enabling detailed shot analysis, stroke classification, and real-time game insights. By integrating ball trajectory estimation and racket motion tracking, our system could provide advanced performance metrics, such as shot speed, spin patterns, and stroke consistency, further enhancing automated tennis analytics.
+                </li>
+                <li>
+                    <strong>Extending to Other Sports:</strong> The same auto-labeling approach could be applied to sports like basketball, swimming, soccer, or volleyball. For example, one could use foundation models to label player positions and field markings in soccer matches, then train specialized trackers for those sports. However, some sports might be more challenging than the others due to the number of occlusions, player interactions, or the complexity of the court.
+                </li>
+                <li>
+                    <strong>Player Movement and Performance Analysis:</strong> With our proposed system, one can derive rich statistics about player movement—coverage of the court, average positioning, running distance, etc. In professional matches, such data can be invaluable for strategy and conditioning. Our approach could feed into tools that quantify player behavior over a match or season, something traditionally done only with expensive systems. Sports analytics pipelines often include detecting courts/fields, players, and balls; our solution automates the first steps of creating those detection models.
+                </li>
+                <li>
+                    <strong>Automated Referee and Coaching Aids:</strong> An AI referee assistant could benefit from the court landmark and player position detection. Automatically detecting if a ball lands out of bounds (close line calls) could be achieved by knowing the precise court line positions and ball trajectory—tasks that become feasible when the court and players are accurately mapped. While professional tournaments use systems like Hawk-Eye (which rely on multiple high-speed cameras), a single-camera AI solution like ours could democratize the technology.
+                </li>
+                <li>
+                    <strong>General Automated Dataset Labeling:</strong> Beyond sports, the <strong>autodistillation approach can be applied to any domain where large models exist but task-specific data is scarce</strong>. In medical imaging or autonomous driving, a foundation model (or ensemble of many models) could label a new dataset for a specialized diagnosis or driving scenario, respectively. The pattern of using a broad AI to generate training data for a narrow AI could accelerate development in many fields by leveraging vast general knowledge to kick-start focused applications. Our project serves as a case study of this principle, showing how unlabeled tennis videos were converted into a fully labeled dataset for model training with no or minimal human effort.
+                </li>
+            </ul>
+            </p>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">Citation</h2>
+      <div> If you find this repository useful for your research or projects, please consider citing it:</div>
+      <br>
+      <pre>
+<code>@misc{Padilla2024TennisAutodistill,
+  author={Rafael Padilla},
+  title={Tennis Autodistillation: Dataset Generation and Model Training},
+  year={2024},
+  howpublished={\url{https://github.com/rafaelpadilla/tennis_autodistill}},
+}</code>
+      </pre>
+    </div>
+  </section>
+
+</body>
+
+</html>
